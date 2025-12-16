@@ -1,91 +1,12 @@
+@props([
+  'status' => null,
+  'links' => [],
+])
+
 @php
-  use Illuminate\Support\Carbon;
-
-  Carbon::setLocale('fr');
-
-  $links = [
-    ['label' => 'Le bar', 'href' => '#le-bar'],
-    ['label' => 'Carte', 'href' => '#carte'],
-    ['label' => 'Happy Hour', 'href' => '#happyhour'],
-    ['label' => 'Infos', 'href' => '#infos'],
-  ];
-
-  $tz = 'Europe/Paris';
-  $now = Carbon::now($tz);
-
-  // ISO: 1=lundi ... 7=dimanche
-  $hours = [
-    1 => null, // Lundi fermé
-    2 => ['open' => '16:00', 'close' => '02:00'],
-    3 => ['open' => '16:00', 'close' => '02:00'],
-    4 => ['open' => '16:00', 'close' => '02:00'],
-    5 => ['open' => '16:00', 'close' => '02:00'],
-    6 => ['open' => '16:00', 'close' => '02:00'],
-    7 => ['open' => '15:00', 'close' => '23:30'],
-  ];
-
-  $today = $now->dayOfWeekIso;
-  $yesterday = $today === 1 ? 7 : $today - 1;
-
-  $isBetween = fn(Carbon $t, Carbon $start, Carbon $end)
-    => $t->greaterThanOrEqualTo($start) && $t->lessThan($end);
-
-  $statusForToday = function () use ($hours, $now, $tz, $today, $isBetween) {
-    $h = $hours[$today] ?? null;
-    if (!$h) return [false, null];
-
-    $open = Carbon::parse($now->toDateString().' '.$h['open'], $tz);
-    $close = Carbon::parse($now->toDateString().' '.$h['close'], $tz);
-    if ($close->lessThanOrEqualTo($open)) $close->addDay();
-
-    return [$isBetween($now, $open, $close), $close];
-  };
-
-  [$openToday, $closeToday] = $statusForToday();
-
-  // Gestion ouverture après minuit (ex: ferme 02:00 -> c'est encore ouvert après minuit)
-  $openFromYesterday = false;
-  $closeFromYesterday = null;
-
-  $hY = $hours[$yesterday] ?? null;
-  if ($hY) {
-    $openY  = Carbon::parse($now->copy()->subDay()->toDateString().' '.$hY['open'], $tz);
-    $closeY = Carbon::parse($now->copy()->subDay()->toDateString().' '.$hY['close'], $tz);
-    if ($closeY->lessThanOrEqualTo($openY)) $closeY->addDay();
-
-    if ($isBetween($now, $openY, $closeY)) {
-      $openFromYesterday = true;
-      $closeFromYesterday = $closeY;
-    }
-  }
-
-  $isOpen = $openToday || $openFromYesterday;
-  $closesAt = $openFromYesterday ? $closeFromYesterday : $closeToday;
-
-  // Prochaine ouverture (FR)
-  $nextOpenText = null;
-  if (!$isOpen) {
-    for ($i=0; $i<8; $i++) {
-      $d = (($today - 1 + $i) % 7) + 1;
-      if (!empty($hours[$d])) {
-        $date = $now->copy()->addDays($i)->startOfDay();
-        $next = Carbon::parse($date->toDateString().' '.$hours[$d]['open'], $tz);
-
-        $nextOpenText = ($i === 0)
-          ? 'Ouvre à '.$next->format('H\hi')
-          : 'Ouvre '.mb_strtolower($next->translatedFormat('l')).' à '.$next->format('H\hi');
-        break;
-      }
-    }
-  }
-
-  $hhStart = Carbon::parse($now->toDateString().' 18:00', $tz);
-  $hhEnd   = Carbon::parse($now->toDateString().' 22:00', $tz);
-  $isHappyHour = $isOpen && $isBetween($now, $hhStart, $hhEnd);
-
-  $statusLabel = $isOpen
-    ? ('Ouvert • jusqu’à '.$closesAt?->format('H\hi'))
-    : ('Fermé • '.$nextOpenText);
+  $isOpen = $status['isOpen'] ?? false;
+  $isHappyHour = $status['isHappyHour'] ?? false;
+  $statusLabel = $status['statusLabel'] ?? '—';
 @endphp
 
 <header class="sticky top-0 z-50 backdrop-blur bg-[#0B0B0F]/70 border-b border-white/10">
@@ -129,7 +50,7 @@
         Appeler
       </a>
 
-      {{-- UN SEUL CTA --}}
+      {{-- ✅ UN SEUL CTA --}}
       <button type="button"
               data-open-contact
               class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-[#F53003] hover:brightness-110 transition shadow-[0_0_40px_rgba(245,48,3,.25)]">
@@ -148,6 +69,7 @@
     </div>
   </nav>
 
+  {{-- Mobile panel --}}
   <div class="md:hidden hidden border-t border-white/10" data-mobile-panel>
     <div class="mx-auto max-w-6xl px-4 py-3 flex flex-col gap-1">
       <div class="mb-2 inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-white/10 bg-white/5 text-xs">

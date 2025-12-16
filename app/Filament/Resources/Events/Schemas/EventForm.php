@@ -16,14 +16,35 @@ class EventForm
         return $schema
             ->components([
                 TextInput::make('title')
-                    ->required(),
+                    ->required()
+                    ->maxLength(120),
+
                 Textarea::make('description')
-                    ->columnSpanFull(),
-                DateTimePicker::make('starts_at'),
-                DateTimePicker::make('ends_at'),
+                    ->columnSpanFull()
+                    ->rows(5)
+                    ->maxLength(2000),
+
+                DateTimePicker::make('starts_at')
+                    ->seconds(false),
+
+                DateTimePicker::make('ends_at')
+                    ->seconds(false)
+                    ->afterOrEqual('starts_at'),
+
                 FileUpload::make('image_url')
-                    ->image(),
+                    ->label('Image')
+                    ->image()
+                    ->disk('public')              // ✅ IMPORTANT
+                    ->directory('events')         // ✅ stockage: storage/app/public/events
+                    ->visibility('public')        // ✅ accessible via /storage
+                    ->imageEditor()               // optionnel
+                    ->maxSize(4096)               // 4MB
+                    ->openable()
+                    ->downloadable(),
+
                 Toggle::make('is_active')
+                    ->label('Actif')
+                    ->default(true)
                     ->required(),
             ]);
     }

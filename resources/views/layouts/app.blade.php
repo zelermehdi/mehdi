@@ -32,7 +32,8 @@
 
 <body class="bg-[#0B0B0F] text-white antialiased selection:bg-[#F53003]/30 selection:text-white">
   <div class="min-h-screen flex flex-col">
-    <x-navbar />
+    {{-- ✅ on passe les données --}}
+    <x-navbar :status="$status ?? null" :links="$links ?? []" />
 
     <main class="flex-1">
       @yield('content')

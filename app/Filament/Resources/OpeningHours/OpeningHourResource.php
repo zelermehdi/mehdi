@@ -21,7 +21,7 @@ class OpeningHourResource extends Resource
 
     protected static ?string $navigationLabel = 'Horaires';
 
-    // ✅ doit être BackedEnum|string|null (comme Resource)
+    // Filament v4 : BackedEnum|string|null
     protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-clock';
 
     public static function form(Schema $schema): Schema
@@ -38,39 +38,48 @@ class OpeningHourResource extends Resource
                     6 => 'Samedi',
                     7 => 'Dimanche',
                 ])
-                ->required(),
+                ->required()
+                ->unique(ignoreRecord: true), // évite 2 lignes “Mardi”
+                // ->native(false) // optionnel si tu veux le select stylé
 
             Toggle::make('is_closed')
                 ->label('Fermé')
-                ->inline(false),
+                ->inline(false)
+                ->reactive(),
 
             TimePicker::make('opens_at')
                 ->label('Ouvre à')
                 ->seconds(false)
-                ->disabled(fn ($get) => (bool) $get('is_closed')),
+                ->visible(fn ($get) => ! (bool) $get('is_closed'))
+                ->required(fn ($get) => ! (bool) $get('is_closed'))
+                ->dehydrated(fn ($get) => ! (bool) $get('is_closed')),
 
             TimePicker::make('closes_at')
                 ->label('Ferme à')
                 ->seconds(false)
-                ->disabled(fn ($get) => (bool) $get('is_closed')),
+                ->visible(fn ($get) => ! (bool) $get('is_closed'))
+                ->required(fn ($get) => ! (bool) $get('is_closed'))
+                ->dehydrated(fn ($get) => ! (bool) $get('is_closed')),
         ]);
     }
 
     public static function table(Table $table): Table
     {
+        $dayNames = [
+            1 => 'Lundi',
+            2 => 'Mardi',
+            3 => 'Mercredi',
+            4 => 'Jeudi',
+            5 => 'Vendredi',
+            6 => 'Samedi',
+            7 => 'Dimanche',
+        ];
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('day_of_week')
                     ->label('Jour')
-                    ->formatStateUsing(fn ($state) => [
-                        1 => 'Lundi',
-                        2 => 'Mardi',
-                        3 => 'Mercredi',
-                        4 => 'Jeudi',
-                        5 => 'Vendredi',
-                        6 => 'Samedi',
-                        7 => 'Dimanche',
-                    ][$state] ?? $state)
+                    ->formatStateUsing(fn ($state) => $dayNames[$state] ?? $state)
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('is_closed')
@@ -79,10 +88,12 @@ class OpeningHourResource extends Resource
 
                 Tables\Columns\TextColumn::make('opens_at')
                     ->label('Ouvre à')
+                    ->placeholder('—')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('closes_at')
                     ->label('Ferme à')
+                    ->placeholder('—')
                     ->sortable(),
             ])
             ->defaultSort('day_of_week');

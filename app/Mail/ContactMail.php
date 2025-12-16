@@ -10,11 +10,20 @@ class ContactMail extends Mailable
 
     public function build()
     {
-        $label = $this->data['subject'] === 'privatisation' ? 'Privatisation' : 'Information';
+        $label = $this->data['subject'] === 'privatisation'
+            ? 'Privatisation'
+            : 'Information';
 
-        return $this->subject("Contact Verre Gule — {$label}")
-            ->replyTo(config('mail.from.address'))
+        return $this->from(
+                config('mail.from.address'),
+                config('mail.from.name')
+            )
+            ->replyTo($this->data['email'])
+            ->subject("Contact Verre Gule - {$label}")
             ->view('emails.contact')
-            ->with(['d' => $this->data, 'label' => $label]);
+            ->with([
+                'd' => $this->data,
+                'label' => $label,
+            ]);
     }
 }

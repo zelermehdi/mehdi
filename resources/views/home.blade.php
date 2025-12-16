@@ -21,14 +21,6 @@
     'servesCuisine' => ['Bar', 'Brasserie'],
     'priceRange' => '€€',
     'url' => url('/'),
-    'openingHoursSpecification' => [
-      ['@type'=>'OpeningHoursSpecification','dayOfWeek'=>'Tuesday','opens'=>'16:00','closes'=>'02:00'],
-      ['@type'=>'OpeningHoursSpecification','dayOfWeek'=>'Wednesday','opens'=>'16:00','closes'=>'02:00'],
-      ['@type'=>'OpeningHoursSpecification','dayOfWeek'=>'Thursday','opens'=>'16:00','closes'=>'02:00'],
-      ['@type'=>'OpeningHoursSpecification','dayOfWeek'=>'Friday','opens'=>'16:00','closes'=>'02:00'],
-      ['@type'=>'OpeningHoursSpecification','dayOfWeek'=>'Saturday','opens'=>'16:00','closes'=>'02:00'],
-      ['@type'=>'OpeningHoursSpecification','dayOfWeek'=>'Sunday','opens'=>'15:00','closes'=>'23:30'],
-    ],
   ];
 @endphp
 <script type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES) !!}</script>
@@ -36,195 +28,28 @@
 
 @section('content')
 @php
-  $accent = '#F53003';
-
-  $hoursText = [
-    'Lundi' => 'Fermé',
-    'Mardi' => '16:00 – 02:00',
-    'Mercredi' => '16:00 – 02:00',
-    'Jeudi' => '16:00 – 02:00',
-    'Vendredi' => '16:00 – 02:00',
-    'Samedi' => '16:00 – 02:00',
-    'Dimanche' => '15:00 – 23:30',
-  ];
-
-  // Menu (ton tableau complet)
-$menu = [
-  'Bières pression' => [
-    ['name' => 'Tuborg (25cl)', 'price' => '3,50€'],
-    ['name' => 'Tuborg (33cl)', 'price' => '4,50€'],
-    ['name' => 'Tuborg (50cl)', 'price' => '5,50€'],
-
-    ['name' => 'Pietra Rossa (25cl)', 'price' => '4,20€'],
-    ['name' => 'Pietra Rossa (33cl)', 'price' => '5,50€'],
-    ['name' => 'Pietra Rossa (50cl)', 'price' => '7,00€'],
-
-    ['name' => 'La Bête (25cl)', 'price' => '4,80€'],
-    ['name' => 'La Bête (33cl)', 'price' => '5,80€'],
-    ['name' => 'La Bête (50cl)', 'price' => '7,50€'],
-
-    ['name' => 'Brooklyn (25cl)', 'price' => '5,20€'],
-    ['name' => 'Brooklyn (33cl)', 'price' => '6,50€'],
-    ['name' => 'Brooklyn (50cl)', 'price' => '8,50€'],
-  ],
-
-  'Bières bouteille' => [
-    ['name' => 'Desperados', 'price' => '4,80€'],
-    ['name' => 'Cidre', 'price' => '4,90€'],
-    ['name' => 'La Chouffe', 'price' => '4,80€'],
-    ['name' => 'Bière sans alcool', 'price' => '3,80€'],
-  ],
-
-  'Vins blancs' => [
-    ['name' => 'Uby N°4 IGP Méditerranée (12cl)', 'price' => '4,50€'],
-    ['name' => 'Uby N°4 IGP Méditerranée (75cl)', 'price' => '20,00€'],
-    ['name' => "Chardonnay CAMAS IGP Pays d’OC (12cl)", 'price' => '5,00€'],
-    ['name' => "Chardonnay CAMAS IGP Pays d’OC (75cl)", 'price' => '22,00€'],
-  ],
-
-  'Vins rosés' => [
-    ['name' => 'Rosé & Clair IGP Méditerranée (12cl)', 'price' => '5,00€'],
-    ['name' => 'Rosé & Clair IGP Méditerranée (75cl)', 'price' => '21,00€'],
-    ['name' => "Chat Minuty C de Provence AOP (12cl)", 'price' => '5,80€'],
-    ['name' => "Chat Minuty C de Provence AOP (75cl)", 'price' => '26,00€'],
-  ],
-
-  'Vins rouges' => [
-    ['name' => 'Uby N°7 Merlot IGP Côtes de Gascogne (12cl)', 'price' => '4,50€'],
-    ['name' => 'Uby N°7 Merlot IGP Côtes de Gascogne (75cl)', 'price' => '19,00€'],
-    ['name' => "Côte du Rhône AOP Caprice d’Antoine (12cl)", 'price' => '5,00€'],
-    ['name' => "Côte du Rhône AOP Caprice d’Antoine (75cl)", 'price' => '21,00€'],
-  ],
-
-  'Champagne' => [
-    ['name' => 'Saint Charles (12cl)', 'price' => '6,00€'],
-    ['name' => 'Saint Charles (75cl)', 'price' => '35,00€'],
-    ['name' => 'Moët & Chandon (12cl)', 'price' => '7,00€'],
-    ['name' => 'Moët & Chandon (75cl)', 'price' => '48,00€'],
-  ],
-
-  'Cocktails' => [
-    ['name' => 'Mojito', 'price' => '7,50€'],
-    ['name' => 'Sex On The Beach', 'price' => '8,50€'],
-    ['name' => 'Piña Colada', 'price' => '8,00€'],
-    ['name' => 'Aperol Spritz', 'price' => '7,50€'],
-    ['name' => 'Gin Tonic', 'price' => '8,00€'],
-    ['name' => 'Margarita', 'price' => '8,50€'],
-    ['name' => 'Porn Star Martini', 'price' => '8,50€'],
-    ['name' => 'Moscow / London Mule', 'price' => '8,50€'],
-    ['name' => 'Long Island', 'price' => '9,50€'],
-  ],
-
-  'Cocktails sans alcool' => [
-    ['name' => 'Virgin Mojito', 'price' => '5,50€'],
-    ['name' => 'Virgin Colada', 'price' => '5,50€'],
-    ['name' => 'Bora Bora', 'price' => '5,50€'],
-    ['name' => 'Framboise & Hibiscus', 'price' => '6,00€'],
-    ['name' => 'Verre Gule', 'price' => '6,00€'],
-  ],
-
-  'Shooters' => [
-    ['name' => 'Orgasme', 'price' => '3,00€'],
-    ['name' => 'Get & Malibu', 'price' => '3,00€'],
-    ['name' => 'Malibu Sunset', 'price' => '3,00€'],
-    ['name' => 'Polar', 'price' => '3,00€'],
-    ['name' => 'Kamikaze', 'price' => '3,50€'],
-    ['name' => 'Tequila Shot', 'price' => '3,50€'],
-    ['name' => 'Jägerbomb Shot', 'price' => '3,50€'],
-    ['name' => 'Blue Shot', 'price' => '3,50€'],
-    ['name' => 'Purple Shot', 'price' => '3,50€'],
-    ['name' => 'Punch Shot', 'price' => '3,50€'],
-    ['name' => 'Le Fire', 'price' => '3,50€'],
-    ['name' => 'Formule 4 shooters', 'price' => '10,80€'],
-    ['name' => 'Formule 6 shooters', 'price' => '15,80€'],
-    ['name' => 'Formule Verre Gule (10 shooters)', 'price' => '24,90€'],
-  ],
-
-  'Softs' => [
-    ['name' => 'Coca / Zéro', 'price' => '3,50€ (33cl) • 5,50€ (1L)'],
-    ['name' => 'Schweppes (Agrumes / Tonic)', 'price' => '3,50€ (33cl) • 5,50€ (1L)'],
-    ['name' => 'Red Bull', 'price' => '3,50€'],
-    ['name' => 'Diabolo', 'price' => '3,50€'],
-    ['name' => 'Jus (Abricot, Pomme, Orange, Ananas)', 'price' => '3,50€'],
-    ['name' => 'Oasis', 'price' => '3,50€'],
-    ['name' => 'Fuze Tea', 'price' => '3,50€'],
-    ['name' => 'Perrier', 'price' => '3,50€ (33cl) • 4,50€ (1L)'],
-    ['name' => 'San Pellegrino', 'price' => '3,50€ (33cl) • 5,00€ (1L)'],
-  ],
-
-  'Boissons chaudes' => [
-    ['name' => 'Espresso / Allongé', 'price' => '1,80€ • 2,20€'],
-    ['name' => 'Cappuccino / Café crème', 'price' => '3,00€'],
-    ['name' => 'Thé', 'price' => '3,00€'],
-    ['name' => 'Chocolat chaud', 'price' => '3,00€'],
-  ],
-
-  'Apéritifs' => [
-    ['name' => 'Kir vin blanc', 'price' => '3,50€'],
-    ['name' => 'Kir prosecco', 'price' => '3,50€'],
-    ['name' => 'Ricard', 'price' => '3,50€'],
-    ['name' => 'Martini (blanco / rosso)', 'price' => '3,50€'],
-  ],
-
-  'Gin' => [
-    ['name' => "Gordon's", 'price' => '5,50€'],
-    ['name' => 'Bombay Saphir', 'price' => '6,00€'],
-    ['name' => "Hendrick's", 'price' => '7,00€'],
-  ],
-
-  'Whisky' => [
-    ['name' => 'Ballantines', 'price' => '5,50€'],
-    ['name' => 'Clan Campbell', 'price' => '5,00€'],
-    ['name' => "Jack Daniel's", 'price' => '7,00€'],
-    ['name' => 'Chivas', 'price' => '8,00€'],
-  ],
-
-  'Vodka' => [
-    ['name' => 'Smirnoff', 'price' => '5,00€'],
-    ['name' => 'Absolut', 'price' => '6,00€'],
-    ['name' => 'Grey Goose', 'price' => '8,00€'],
-  ],
-
-  'Autres alcools' => [
-    ['name' => 'Jäger Meister', 'price' => '5,00€'],
-    ['name' => 'Jäger Bomb', 'price' => '7,50€'],
-    ['name' => 'Absinthe', 'price' => '9,00€'],
-  ],
-
-  'Digestifs' => [
-    ['name' => 'Get 27', 'price' => '5,50€'],
-    ['name' => 'Get 31', 'price' => '6,00€'],
-    ['name' => 'Baileys', 'price' => '5,50€'],
-  ],
-
-  'À manger' => [
-    ['name' => 'Salade César', 'price' => '9,00€'],
-    ['name' => 'Salade de chèvre', 'price' => '8,00€'],
-    ['name' => 'Salade Italienne', 'price' => '8,50€'],
-    ['name' => 'Burger Classic', 'price' => '11,50€'],
-    ['name' => 'Burger Végé', 'price' => '9,50€'],
-    ['name' => 'Burger Poulet', 'price' => '11,00€'],
-    ['name' => 'Croque Monsieur', 'price' => '8,50€'],
-    ['name' => 'Croque Madame', 'price' => '9,50€'],
-    ['name' => 'Pâtes au saumon', 'price' => '12,00€'],
-    ['name' => 'Pâtes bolo', 'price' => '10,00€'],
-    ['name' => 'Bruschetta Margherita', 'price' => '7,50€'],
-    ['name' => 'Bruschetta Saumon', 'price' => '8,50€'],
-    ['name' => 'Bruschetta Triple Cheese', 'price' => '8,00€'],
-    ['name' => 'Entrecôte / Faux filet + frites + salade', 'price' => '16,50€'],
-    ['name' => 'Crème brûlée', 'price' => '4,50€'],
-    ['name' => 'Dame blanche (3 boules)', 'price' => '4,00€'],
-    ['name' => 'Moelleux au chocolat', 'price' => '4,50€'],
-  ],
-];
-
-
   $sellingPoints = [
     ['title' => 'Ambiance chill → festive', 'desc' => "Afterwork, puis la vibe monte au fil de la soirée.", 'tag' => 'Vibe'],
     ['title' => 'Carte bien fournie', 'desc' => 'Bières, vins, cocktails, shooters, softs.', 'tag' => 'Carte'],
     ['title' => 'Bar-brasserie', 'desc' => 'De quoi manger sans prise de tête.', 'tag' => 'Food'],
     ['title' => 'Groupes', 'desc' => 'Infos ou privatisation : on s’adapte.', 'tag' => 'Contact'],
   ];
+
+  $dayNames = [1=>'Lundi',2=>'Mardi',3=>'Mercredi',4=>'Jeudi',5=>'Vendredi',6=>'Samedi',7=>'Dimanche'];
+
+  $tz = 'Europe/Paris';
+
+  $formatEventDate = function($e) use ($tz) {
+    $starts = $e->starts_at ? \Illuminate\Support\Carbon::parse($e->starts_at)->timezone($tz) : null;
+    $ends   = $e->ends_at   ? \Illuminate\Support\Carbon::parse($e->ends_at)->timezone($tz)   : null;
+
+    if (!$starts) return 'Date à confirmer';
+
+    $line = $starts->locale('fr')->translatedFormat('l d F • H\hi');
+    if ($ends) $line .= ' — '.$ends->format('H\hi');
+
+    return $line;
+  };
 @endphp
 
 {{-- HERO --}}
@@ -266,6 +91,81 @@ $menu = [
             Infos & accès
           </a>
         </div>
+
+        {{-- EVENTS (prochain + suivants) --}}
+        @if(!empty($featuredEvent))
+          <div class="mt-8">
+            <div class="flex items-center justify-between gap-4">
+              <p class="text-white/80 text-sm font-semibold">Événements</p>
+              @if(Route::has('events.index'))
+                <a href="{{ route('events.index') }}"
+                   class="text-sm text-white/70 hover:text-white underline underline-offset-4">
+                  Voir tous
+                </a>
+              @endif
+            </div>
+
+            {{-- Featured --}}
+            <div class="mt-3 rounded-3xl border border-white/10 bg-white/5 overflow-hidden">
+              @if($featuredEvent->image_src)
+                <div class="relative h-44">
+                  <img src="{{ $featuredEvent->image_src }}" alt="{{ $featuredEvent->title }}"
+                       class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+                  <div class="absolute inset-0 bg-gradient-to-t from-[#0B0B0F] via-[#0B0B0F]/30 to-transparent"></div>
+                </div>
+              @endif
+
+              <div class="p-5">
+                <p class="text-xs text-white/60">Prochain événement</p>
+                <p class="mt-1 text-lg font-semibold">{{ $featuredEvent->title }}</p>
+                <p class="mt-1 text-sm text-white/70">{{ $formatEventDate($featuredEvent) }}</p>
+
+                @if($featuredEvent->description)
+                  <p class="mt-3 text-sm text-white/70 leading-relaxed">
+                    {{ $featuredEvent->description }}
+                  </p>
+                @endif
+
+                <div class="mt-4 flex flex-wrap gap-2">
+                  <button type="button" data-open-contact
+                     class="px-4 py-2 rounded-lg text-sm font-semibold bg-[#F53003] hover:brightness-110 transition">
+                    Réserver / Infos
+                  </button>
+                  <a href="#infos"
+                     class="px-4 py-2 rounded-lg text-sm font-semibold border border-white/15 hover:bg-white/5 transition">
+                    Accès
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {{-- Next events --}}
+            @if(!empty($nextEvents) && $nextEvents->count())
+              <div class="mt-4 grid sm:grid-cols-3 gap-3">
+                @foreach($nextEvents as $e)
+                  <div class="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
+                    @if($e->image_url)
+                      <div class="h-24">
+                        <img src="{{ $e->image_url }}" alt="{{ $e->title }}"
+                             class="w-full h-full object-cover" loading="lazy">
+                      </div>
+                    @endif
+                    <div class="p-4">
+                      <p class="font-semibold text-sm">{{ $e->title }}</p>
+                      <p class="mt-1 text-xs text-white/70">{{ $formatEventDate($e) }}</p>
+                      <div class="mt-3">
+                        <button type="button" data-open-contact
+                          class="w-full px-3 py-2 rounded-lg text-sm font-semibold border border-white/15 hover:bg-white/5 transition">
+                          Demander info
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                @endforeach
+              </div>
+            @endif
+          </div>
+        @endif
 
         <div class="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-3">
           <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
@@ -312,14 +212,12 @@ $menu = [
             </div>
           </div>
 
-          {{-- pas de CTA ici (tu veux un seul bouton) --}}
           <div class="px-6 pb-6">
             <button type="button" data-open-contact
               class="w-full inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold border border-white/15 hover:bg-white/5 transition">
               Une question ? Contact
             </button>
           </div>
-
         </div>
       </div>
     </div>
@@ -334,14 +232,6 @@ $menu = [
       <p class="mt-3 text-white/70 leading-relaxed">
         Bar-brasserie convivial : bières, vins, cocktails… et de quoi manger sur place.
       </p>
-
-      <div class="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5">
-        <p class="text-white/90 font-semibold">Infos / groupes</p>
-        <p class="mt-2 text-sm text-white/70 leading-relaxed">
-          Tu veux juste une info (horaires, table, carte) ou organiser un truc (afterwork, anniversaire) ?
-          Passe par <span class="text-white/90 font-medium">Contact</span> : on répond sous 24h.
-        </p>
-      </div>
     </div>
 
     <div class="lg:col-span-7 grid sm:grid-cols-2 gap-4">
@@ -381,24 +271,8 @@ $menu = [
   <div class="rounded-3xl border border-white/10 bg-[radial-gradient(900px_500px_at_20%_0%,rgba(245,48,3,.18),transparent_60%)] bg-white/5 p-6 md:p-8">
     <h2 class="text-2xl md:text-3xl font-semibold tracking-tight">Happy Hour</h2>
     <p class="mt-2 text-white/70">Tous les jours d’ouverture : <span class="text-white/90 font-medium">18h – 22h</span>.</p>
-
-    <div class="mt-6 grid sm:grid-cols-3 gap-4">
-      <div class="rounded-2xl border border-white/10 bg-[#0B0B0F]/40 p-5">
-        <p class="font-semibold">Bon plan</p>
-        <p class="mt-2 text-sm text-white/70">Tu viens tôt → tu payes moins → tu profites plus.</p>
-      </div>
-      <div class="rounded-2xl border border-white/10 bg-[#0B0B0F]/40 p-5">
-        <p class="font-semibold">Ambiance</p>
-        <p class="mt-2 text-sm text-white/70">Le bar se remplit, la vibe monte naturellement.</p>
-      </div>
-      <div class="rounded-2xl border border-white/10 bg-[#0B0B0F]/40 p-5">
-        <p class="font-semibold">Simple</p>
-        <p class="mt-2 text-sm text-white/70">Cocktails, bières, vins — tu choisis.</p>
-      </div>
-    </div>
   </div>
 </section>
-
 
 {{-- INFOS --}}
 <section id="infos" class="mx-auto max-w-6xl px-4 pb-16">
@@ -421,31 +295,35 @@ $menu = [
       <div class="rounded-2xl border border-white/10 bg-[#0B0B0F]/40 p-5">
         <p class="text-white/60 text-xs">Horaires</p>
         <div class="mt-2 space-y-1 text-sm text-white/80">
-          <div class="flex justify-between"><span>Lundi</span><span class="text-white/60">Fermé</span></div>
-          <div class="flex justify-between"><span>Mardi</span><span>16:00 – 02:00</span></div>
-          <div class="flex justify-between"><span>Mercredi</span><span>16:00 – 02:00</span></div>
-          <div class="flex justify-between"><span>Jeudi</span><span>16:00 – 02:00</span></div>
-          <div class="flex justify-between"><span>Vendredi</span><span>16:00 – 02:00</span></div>
-          <div class="flex justify-between"><span>Samedi</span><span>16:00 – 02:00</span></div>
-          <div class="flex justify-between"><span>Dimanche</span><span>15:00 – 23:30</span></div>
+          @forelse($hours as $h)
+            <div class="flex justify-between">
+              <span>{{ $dayNames[$h->day_of_week] ?? $h->day_of_week }}</span>
+
+              @if($h->is_closed)
+                <span class="text-white/60">Fermé</span>
+              @else
+                <span class="text-white/85">
+                  {{ \Illuminate\Support\Carbon::parse($h->opens_at)->format('H:i') }}
+                  –
+                  {{ \Illuminate\Support\Carbon::parse($h->closes_at)->format('H:i') }}
+                </span>
+              @endif
+            </div>
+          @empty
+            <p class="text-sm text-white/70">Horaires à définir.</p>
+          @endforelse
         </div>
         <p class="mt-3 text-xs text-white/50">Happy Hour : <span class="text-white/70">18h – 22h</span></p>
       </div>
 
-      {{-- Accès détaillé --}}
       <div class="rounded-2xl border border-white/10 bg-[#0B0B0F]/40 p-5">
         <p class="text-white/60 text-xs">Accès (rapide)</p>
-
         <ul class="mt-2 space-y-2 text-sm text-white/80">
           <li>🚶 ≈ 2–4 min : Place du Vieux-Marché (Église Sainte-Jeanne-d’Arc)</li>
           <li>🚇 Métro/Tram : Palais de Justice ou Théâtre des Arts</li>
           <li>🚌 TEOR : centre / Vieux-Marché</li>
           <li>🚗 Parking : Vieux-Marché, Palais de Justice, Cathédrale / Square des Arts</li>
         </ul>
-
-        <p class="mt-3 text-xs text-white/50">
-          Repère : angle Rue Saint-Etienne des Tonneliers / Rue de Champmeslé.
-        </p>
       </div>
     </div>
 
@@ -464,8 +342,7 @@ $menu = [
   </div>
 </section>
 
-
-{{-- MODAL CARTE --}}
+{{-- MODAL CARTE (DB) --}}
 <div class="fixed inset-0 z-[70] hidden" data-menu-modal aria-hidden="true">
   <div class="absolute inset-0 bg-black/70" data-close-menu></div>
 
@@ -476,82 +353,93 @@ $menu = [
           <p class="text-white font-semibold text-lg">La carte</p>
           <p class="text-white/70 text-sm mt-1">Happy Hour : 18h – 22h</p>
         </div>
-        <button type="button" class="size-10 rounded-xl border border-white/10 hover:bg-white/5 transition grid place-items-center"
-                aria-label="Fermer" data-close-menu>✕</button>
+        <button type="button"
+          class="size-10 rounded-xl border border-white/10 hover:bg-white/5 transition grid place-items-center"
+          aria-label="Fermer" data-close-menu>✕</button>
       </div>
 
       <div class="p-6 max-h-[70vh] overflow-auto space-y-6">
-        @foreach($menu as $category => $items)
+        @forelse($menuCategories as $cat)
           <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <h3 class="text-lg font-semibold">{{ $category }}</h3>
+            <h3 class="text-lg font-semibold">{{ $cat->name }}</h3>
+
             <ul class="mt-4 space-y-2">
-              @foreach($items as $i)
+              @foreach($cat->items as $i)
                 <li class="flex items-start justify-between gap-4">
-                  <p class="text-white/90 text-sm font-medium">{{ $i['name'] }}</p>
-                  <p class="text-sm text-white/70 whitespace-nowrap">{{ $i['price'] }}</p>
+                  <p class="text-white/90 text-sm font-medium">{{ $i->name }}</p>
+                  <p class="text-sm text-white/70 whitespace-nowrap">{{ $i->price_text }}</p>
                 </li>
               @endforeach
             </ul>
           </div>
-        @endforeach
+        @empty
+          <p class="text-white/70 text-sm">La carte arrive bientôt.</p>
+        @endforelse
+
         <p class="text-xs text-white/50">* Carte susceptible d’évoluer selon les produits et la saison.</p>
       </div>
     </div>
   </div>
 </div>
 
-{{-- MODAL CONTACT (unique) --}}
+{{-- MODAL CONTACT (mail) --}}
 <div class="fixed inset-0 z-[80] hidden" data-contact-modal aria-hidden="true">
   <div class="absolute inset-0 bg-black/70" data-close-contact></div>
 
   <div class="relative mx-auto max-w-xl px-4 py-10">
     <div class="rounded-3xl border border-white/10 bg-[#0B0B0F] shadow-2xl overflow-hidden">
-
       <div class="p-6 border-b border-white/10">
         <div class="flex items-start justify-between gap-4">
           <div>
             <p class="text-white font-semibold text-lg">Contact</p>
-            <p class="text-white/70 text-sm mt-1">Infos ou privatisation : on te répond vite.</p>
+            <p class="text-white/70 text-sm mt-1">Infos ou privatisation : réponse sous 24h.</p>
           </div>
           <button type="button"
-                  class="size-10 rounded-xl border border-white/10 hover:bg-white/5 transition grid place-items-center"
-                  aria-label="Fermer"
-                  data-close-contact>✕</button>
+            class="size-10 rounded-xl border border-white/10 hover:bg-white/5 transition grid place-items-center"
+            aria-label="Fermer" data-close-contact>✕</button>
         </div>
       </div>
 
-      <form class="p-6 space-y-4" action="#" method="POST">
+      <form class="p-6 space-y-4" action="{{ route('contact.send') }}" method="POST">
         @csrf
 
         <div class="grid sm:grid-cols-2 gap-4">
           <div>
             <label class="text-xs text-white/60">Nom</label>
-            <input name="name" required
-                   class="mt-1 w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-white/30"
-                   placeholder="Mehdi">
+            <input name="name" required value="{{ old('name') }}"
+              class="mt-1 w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-white/30"
+              placeholder="Mehdi">
           </div>
           <div>
             <label class="text-xs text-white/60">Téléphone</label>
-            <input name="phone"
-                   class="mt-1 w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-white/30"
-                   placeholder="06…">
+            <input name="phone" value="{{ old('phone') }}"
+              class="mt-1 w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-white/30"
+              placeholder="06…">
           </div>
         </div>
 
         <div>
+  <label class="text-xs text-white/60">Email</label>
+  <input type="email" name="email" required value="{{ old('email') }}"
+    class="mt-1 w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-white/30"
+    placeholder="email@exemple.com">
+</div>
+
+
+        <div>
           <label class="text-xs text-white/60">Sujet</label>
           <select name="subject" required
-                  class="mt-1 w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-white/30">
-            <option value="information">Information</option>
-            <option value="privatisation">Privatisation</option>
+            class="mt-1 w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-white/30">
+            <option value="information" @selected(old('subject')==='information')>Information</option>
+            <option value="privatisation" @selected(old('subject')==='privatisation')>Privatisation</option>
           </select>
         </div>
 
         <div>
           <label class="text-xs text-white/60">Message</label>
           <textarea name="message" rows="4" required
-                    class="mt-1 w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-white/30"
-                    placeholder="Dis-nous ce que tu veux (date / nombre si privatisation, ou ta question)"></textarea>
+            class="mt-1 w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm outline-none focus:border-white/30"
+            placeholder="Ta question ou (date + nombre) si privatisation">{{ old('message') }}</textarea>
         </div>
 
         <div class="flex flex-col sm:flex-row gap-3 pt-2">
@@ -559,10 +447,12 @@ $menu = [
             class="sm:flex-1 px-5 py-3 rounded-xl text-sm font-semibold border border-white/15 hover:bg-white/5 transition">
             Annuler
           </button>
+
           <a href="tel:+33983776901"
             class="sm:flex-1 px-5 py-3 rounded-xl text-sm font-semibold bg-white text-[#0B0B0F] hover:opacity-90 transition text-center">
             Appeler
           </a>
+
           <button type="submit"
             class="sm:flex-1 px-5 py-3 rounded-xl text-sm font-semibold bg-[#F53003] hover:brightness-110 transition">
             Envoyer
@@ -570,13 +460,43 @@ $menu = [
         </div>
 
         <p class="text-xs text-white/50">
-          Aucune obligation. Réponse sous <span class="text-white/70">24h maximum</span>.
+          Aucun engagement. Réponse sous <span class="text-white/70">24h maximum</span>.
         </p>
       </form>
     </div>
   </div>
 </div>
 
+@if(session('contact_success'))
+  <div
+    data-contact-success
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100]
+           max-w-md w-[92%]
+           rounded-2xl border border-emerald-500/30
+           bg-emerald-500/15
+           text-emerald-200 px-5 py-4 shadow-2xl backdrop-blur">
+
+    <p class="text-sm font-semibold">
+      Merci pour ton message 🍸
+    </p>
+
+    <p class="mt-1 text-sm leading-relaxed">
+      Ton message a bien été envoyé à l’équipe <strong>Verre Gule</strong>.
+      Nous te répondrons <strong>en moins de 24h</strong>, souvent bien avant 😉
+    </p>
+
+    <p class="mt-2 text-xs text-emerald-100/70">
+      En attendant, passe boire un verre ou appelle-nous si c’est urgent.
+    </p>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      const el = document.querySelector('[data-contact-success]');
+      if (el) el.remove();
+    }, 6000);
+  </script>
+@endif
 @endsection
 
 @push('scripts')
@@ -592,13 +512,12 @@ $menu = [
     closeLinks.forEach(a => a.addEventListener('click', () => panel.classList.add('hidden')));
   }
 
-  // Helpers
   const lock = () => document.documentElement.classList.add('overflow-hidden');
   const unlock = () => document.documentElement.classList.remove('overflow-hidden');
 
   // Menu modal
-  const openMenuBtns = document.querySelectorAll('[data-open-menu]');
   const menuModal = document.querySelector('[data-menu-modal]');
+  const openMenuBtns = document.querySelectorAll('[data-open-menu]');
   const closeMenuTargets = document.querySelectorAll('[data-close-menu]');
 
   const openMenu = () => {
@@ -607,6 +526,7 @@ $menu = [
     menuModal.setAttribute('aria-hidden','false');
     lock();
   };
+
   const closeMenu = () => {
     if (!menuModal) return;
     menuModal.classList.add('hidden');
@@ -618,8 +538,8 @@ $menu = [
   closeMenuTargets.forEach(b => b.addEventListener('click', closeMenu));
 
   // Contact modal
-  const openContactBtns = document.querySelectorAll('[data-open-contact]');
   const contactModal = document.querySelector('[data-contact-modal]');
+  const openContactBtns = document.querySelectorAll('[data-open-contact]');
   const closeContactTargets = document.querySelectorAll('[data-close-contact]');
 
   const openContact = () => {
@@ -628,6 +548,7 @@ $menu = [
     contactModal.setAttribute('aria-hidden','false');
     lock();
   };
+
   const closeContact = () => {
     if (!contactModal) return;
     contactModal.classList.add('hidden');
@@ -638,7 +559,7 @@ $menu = [
   openContactBtns.forEach(b => b.addEventListener('click', openContact));
   closeContactTargets.forEach(b => b.addEventListener('click', closeContact));
 
-  // ESC ferme la modal ouverte (priorité contact)
+  // ESC
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     if (contactModal && !contactModal.classList.contains('hidden')) return closeContact();
