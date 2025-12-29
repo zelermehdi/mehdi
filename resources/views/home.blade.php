@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Verre Gule — Bar à Rouen | Cocktails, Happy Hour, Contact')
-@section('meta_description', "Verre Gule à Rouen : bar-brasserie convivial, plats maison, bières, vins, cocktails, happy hour (18h–22h). Contact pour infos ou privatisation.")
+@section('meta_description', "Verre Gule à Rouen : bar-brasserie convivial, plats maison, bières, vins, cocktails, happy hour (17h – 20:30h). Contact pour infos ou privatisation.")
 @section('canonical', url('/'))
 
 @section('jsonld')
@@ -55,7 +55,7 @@
 {{-- HERO --}}
 <section class="relative overflow-hidden">
   <div class="absolute inset-0">
-    <div class="absolute inset-0 bg-[radial-gradient(900px_500px_at_15%_10%,rgba(245,48,3,.28),transparent_60%),radial-gradient(700px_450px_at_85%_20%,rgba(255,200,120,.14),transparent_55%),radial-gradient(700px_700px_at_50%_100%,rgba(255,255,255,.06),transparent_60%)]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(900px_500px_at_15%_10%,rgba(124,68,45,1),transparent_60%),radial-gradient(700px_450px_at_85%_20%,rgba(255,200,120,.14),transparent_55%),radial-gradient(700px_700px_at_50%_100%,rgba(255,255,255,.06),transparent_60%)]"></div>
     <div class="absolute inset-0 opacity-[0.06] mix-blend-overlay"
       style="background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22400%22 height=%22400%22 filter=%22url(%23n)%22 opacity=%220.35%22/%3E%3C/svg%3E');"></div>
   </div>
@@ -64,7 +64,7 @@
     <div class="grid lg:grid-cols-2 gap-10 items-center">
       <div>
         <p class="inline-flex items-center gap-2 text-xs tracking-wide uppercase text-white/60">
-          <span class="size-1.5 rounded-full bg-[#F53003] shadow-[0_0_24px_rgba(245,48,3,.6)]"></span>
+          <span class="size-1.5 rounded-full bg-[rgba(124,68,45,1)] shadow-[0_0_24px_rgba(124,68,45,.6)]"></span>
           Bar • Brasserie • Cocktails • Happy hour • Rouen
         </p>
 
@@ -77,7 +77,7 @@
 
         <p class="mt-5 text-white/70 leading-relaxed">
           Un spot où tu viens <span class="text-white/90 font-medium">chiller</span>, manger un truc,
-          et profiter d’une ambiance détendue. Happy Hour <span class="text-white/90 font-medium">18h–22h</span>.
+          et profiter d’une ambiance détendue. Happy Hour <span class="text-white/90 font-medium">17h – 20:30h</span>.
         </p>
 
         <div class="mt-7 flex flex-wrap gap-3">
@@ -128,7 +128,7 @@
 
                 <div class="mt-4 flex flex-wrap gap-2">
                   <button type="button" data-open-contact
-                     class="px-4 py-2 rounded-lg text-sm font-semibold bg-[#F53003] hover:brightness-110 transition">
+                     class="px-4 py-2 rounded-lg text-sm font-semibold bg-[rgba(124,68,45,1)] hover:brightness-110 transition">
                     Réserver / Infos
                   </button>
                   <a href="#infos"
@@ -178,13 +178,13 @@
           </div>
           <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
             <p class="text-white/60 text-xs">Happy Hour</p>
-            <p class="text-sm mt-1">18h – 22h</p>
+            <p class="text-sm mt-1">17h – 20:30h</p>
           </div>
         </div>
       </div>
 
       <div class="relative">
-        <div class="absolute -inset-6 blur-2xl bg-[radial-gradient(closest-side,rgba(245,48,3,.22),transparent)]"></div>
+        <div class="absolute -inset-6 blur-2xl bg-[radial-gradient(closest-side,rgba(124,68,45,1),transparent)]"></div>
 
         <div class="relative rounded-3xl border border-white/10 bg-white/5 overflow-hidden">
           <div class="p-6">
@@ -208,7 +208,7 @@
             <div class="mt-6 flex flex-wrap gap-2 text-xs text-white/60">
               <span class="px-3 py-1.5 rounded-full border border-white/10 bg-white/5">Bien pour danser</span>
               <span class="px-3 py-1.5 rounded-full border border-white/10 bg-white/5">Restauration</span>
-              <span class="px-3 py-1.5 rounded-full border border-white/10 bg-white/5">Happy hour 18h–22h</span>
+              <span class="px-3 py-1.5 rounded-full border border-white/10 bg-white/5">Happy hour 17h – 20:30h</span>
             </div>
           </div>
 
@@ -239,7 +239,7 @@
         ['title' => 'Convivial', 'desc' => 'Entre amis, collègues, famille.'],
         ['title' => 'Carte variée', 'desc' => 'Pressions, cocktails, shooters, softs.'],
         ['title' => 'Bar-brasserie', 'desc' => 'De quoi manger sur place.'],
-        ['title' => 'Happy Hour', 'desc' => 'Tous les jours d’ouverture : 18h–22h.'],
+        ['title' => 'Happy Hour', 'desc' => 'Tous les jours d’ouverture : 17h – 20:30h.'],
       ] as $card)
         <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
           <p class="font-semibold">{{ $card['title'] }}</p>
@@ -268,9 +268,9 @@
 
 {{-- HAPPY HOUR --}}
 <section id="happyhour" class="mx-auto max-w-6xl px-4 pb-14">
-  <div class="rounded-3xl border border-white/10 bg-[radial-gradient(900px_500px_at_20%_0%,rgba(245,48,3,.18),transparent_60%)] bg-white/5 p-6 md:p-8">
+  <div class="rounded-3xl border border-white/10 bg-[radial-gradient(900px_500px_at_20%_0%,rgba(124,68,45,1),transparent_60%)] bg-white/5 p-6 md:p-8">
     <h2 class="text-2xl md:text-3xl font-semibold tracking-tight">Happy Hour</h2>
-    <p class="mt-2 text-white/70">Tous les jours d’ouverture : <span class="text-white/90 font-medium">18h – 22h</span>.</p>
+    <p class="mt-2 text-white/70">Tous les jours d’ouverture : <span class="text-white/90 font-medium">17h – 20:30h</span>.</p>
   </div>
 </section>
 
@@ -313,7 +313,7 @@
             <p class="text-sm text-white/70">Horaires à définir.</p>
           @endforelse
         </div>
-        <p class="mt-3 text-xs text-white/50">Happy Hour : <span class="text-white/70">18h – 22h</span></p>
+        <p class="mt-3 text-xs text-white/50">Happy Hour : <span class="text-white/70">17h – 20:30h</span></p>
       </div>
 
       <div class="rounded-2xl border border-white/10 bg-[#0B0B0F]/40 p-5">
@@ -335,7 +335,7 @@
       </a>
 
       <button type="button" data-open-contact
-         class="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-[#F53003] hover:brightness-110 transition">
+         class="inline-flex items-center justify-center px-5 py-3 rounded-xl text-sm font-semibold bg-[rgba(124,68,45,1)] hover:brightness-110 transition">
         Contact
       </button>
     </div>
@@ -351,7 +351,7 @@
       <div class="p-6 border-b border-white/10 flex items-start justify-between gap-4">
         <div>
           <p class="text-white font-semibold text-lg">La carte</p>
-          <p class="text-white/70 text-sm mt-1">Happy Hour : 18h – 22h</p>
+          <p class="text-white/70 text-sm mt-1">Happy Hour : 17h – 20:30h</p>
         </div>
         <button type="button"
           class="size-10 rounded-xl border border-white/10 hover:bg-white/5 transition grid place-items-center"
@@ -454,7 +454,7 @@
           </a>
 
           <button type="submit"
-            class="sm:flex-1 px-5 py-3 rounded-xl text-sm font-semibold bg-[#F53003] hover:brightness-110 transition">
+            class="sm:flex-1 px-5 py-3 rounded-xl text-sm font-semibold bg-[rgba(124,68,45,1)] hover:brightness-110 transition">
             Envoyer
           </button>
         </div>

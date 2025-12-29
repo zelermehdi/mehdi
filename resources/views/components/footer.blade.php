@@ -7,7 +7,7 @@
           Bar-brasserie convivial à Rouen : plats maison, carte variée, cocktails.
         </p>
         <p class="text-xs text-white/50 mt-3">
-          Happy Hour : <span class="text-white/70">18h – 22h</span>
+          Happy Hour : <span class="text-white/70">17h – 20:30h</span>
         </p>
       </div>
 

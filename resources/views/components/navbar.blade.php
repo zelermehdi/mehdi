@@ -13,7 +13,7 @@
   <nav class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-3">
     <a href="{{ route('home') }}" class="group flex items-center gap-3">
       <span class="relative grid place-items-center size-10 rounded-xl bg-white/5 border border-white/10">
-        <span class="size-2.5 rounded-full bg-[#F53003] shadow-[0_0_40px_rgba(245,48,3,.6)]"></span>
+        <span class="size-2.5 rounded-full bg-[rgb(97,45,16)] shadow-[0_0_40px_rgba(97,45,16,.6)]"></span>
       </span>
       <span class="leading-tight">
         <span class="block text-white font-semibold tracking-tight text-lg">Verre Gule</span>
@@ -23,12 +23,18 @@
 
     {{-- Badge ouvert/fermé --}}
     <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs">
-      <span class="inline-block size-2 rounded-full {{ $isOpen ? 'bg-emerald-400' : 'bg-rose-400' }}"></span>
+      <span class="inline-block size-2 rounded-full
+        {{ $isOpen ? 'bg-[rgb(97,45,16)]' : 'bg-[rgba(97,45,16,.35)]' }}">
+      </span>
       <span class="text-white/85">{{ $statusLabel }}</span>
       <span class="text-white/35">•</span>
-      <span class="text-white/70">Happy Hour 18h–22h</span>
+      <span class="text-white/70">Happy Hour 17h – 20:30h</span>
+
       @if($isHappyHour)
-        <span class="ml-1 text-[11px] px-2 py-0.5 rounded-full bg-emerald-400/15 text-emerald-200 border border-emerald-400/20">
+        <span class="ml-1 text-[11px] px-2 py-0.5 rounded-full
+          bg-[rgba(97,45,16,.15)]
+          text-[rgb(97,45,16)]
+          border border-[rgba(97,45,16,.25)]">
           En cours
         </span>
       @endif
@@ -46,14 +52,19 @@
     <div class="flex items-center gap-2">
       <a href="tel:+33983776901"
          class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm border border-white/10 hover:bg-white/5 transition text-white/85">
-        <span class="inline-block size-2 rounded-full {{ $isOpen ? 'bg-emerald-400' : 'bg-white/30' }}"></span>
+        <span class="inline-block size-2 rounded-full
+          {{ $isOpen ? 'bg-[rgb(97,45,16)]' : 'bg-white/30' }}">
+        </span>
         Appeler
       </a>
 
-      {{-- ✅ UN SEUL CTA --}}
+      {{-- CTA --}}
       <button type="button"
               data-open-contact
-              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-[#F53003] hover:brightness-110 transition shadow-[0_0_40px_rgba(245,48,3,.25)]">
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold
+                     bg-[rgb(97,45,16)]
+                     hover:brightness-110 transition
+                     shadow-[0_0_40px_rgba(97,45,16,.35)]">
         Contact
         <span aria-hidden="true">→</span>
       </button>
@@ -73,12 +84,18 @@
   <div class="md:hidden hidden border-t border-white/10" data-mobile-panel>
     <div class="mx-auto max-w-6xl px-4 py-3 flex flex-col gap-1">
       <div class="mb-2 inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-white/10 bg-white/5 text-xs">
-        <span class="inline-block size-2 rounded-full {{ $isOpen ? 'bg-emerald-400' : 'bg-rose-400' }}"></span>
+        <span class="inline-block size-2 rounded-full
+          {{ $isOpen ? 'bg-[rgb(97,45,16)]' : 'bg-[rgba(97,45,16,.35)]' }}">
+        </span>
         <span class="text-white/85">{{ $statusLabel }}</span>
         <span class="text-white/35">•</span>
-        <span class="text-white/70">Happy Hour 18h–22h</span>
+        <span class="text-white/70">Happy Hour 17h – 20:30h</span>
+
         @if($isHappyHour)
-          <span class="ml-1 text-[11px] px-2 py-0.5 rounded-full bg-emerald-400/15 text-emerald-200 border border-emerald-400/20">
+          <span class="ml-1 text-[11px] px-2 py-0.5 rounded-full
+            bg-[rgba(97,45,16,.15)]
+            text-[rgb(97,45,16)]
+            border border-[rgba(97,45,16,.25)]">
             En cours
           </span>
         @endif
@@ -98,7 +115,8 @@
           Appeler
         </a>
         <button type="button" data-open-contact
-                class="flex-1 inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-semibold bg-[#F53003] hover:brightness-110 transition">
+                class="flex-1 inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-semibold
+                       bg-[rgb(97,45,16)] hover:brightness-110 transition">
           Contact
         </button>
       </div>
